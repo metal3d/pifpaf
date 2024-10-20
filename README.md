@@ -18,6 +18,26 @@ of commands is greater than the number of columns.
 pifpaf "command1" "command2" "command3"
 ```
 
+`pifpaf` accepts `STDIN` input, so you can pipe commands to it in different manners.
+
+```bash
+# Using echo
+echo "command1" "command2" "command3" | pifpaf
+
+pifpaf < <(echo "command1" "command2" "command3")
+
+pifpaf <<EOF
+command1
+command2
+command3
+EOF
+
+# Using a file
+pifpaf < commands.txt
+```
+
+> Commands from `STDIN` are appended to the commands given as arguments. So you can mix both.
+
 You can specify the number of columns with the `-c` option – you can use 1 to whatever you want. But be careful, the
 more columns you have, the more the terminal will be divided, and the output width will be reduced.
 
@@ -47,6 +67,45 @@ pifpaf -c 2 \
 ```
 
 ![With 2 columns max](assets/pifpaf2.png)
+
+`pifpaf --help`:
+
+```text
+pifpaf is a tool to run multiple commands and display their output in a grid layout.
+
+Each command should be one string, that means that you certainly need to quote the command if it has spaces.
+You can also pass the commands separated by newlines to stdin.
+Examples:
+
+ # commands in arguments
+ pifpaf "ping google.com" "podman run --rm -it metal3d/xmrig"
+
+ # commands from stdin
+ echo -e "ping google.com\npodman run --rm -it metal3d/xmrig" | pifpaf
+
+ pifpaf <<EOF
+ ping google.comm
+ podman run --rm -it metal3d/xmrig
+ EOF
+
+ pifpaf < file_with_commands.txt
+
+Usage:
+  multilogs [options] command1 [command2] ... [flags]
+  multilogs [command]
+
+Available Commands:
+  completion  Generate the autocompletion script for the specified shell
+  help        Help about any command
+  version     Print the version number of multilogs
+
+Flags:
+  -h, --help           help for multilogs
+  -c, --max-cols int   Maximum number of columns in the grid layout, default is 3, must be greater than 0 (default 3)
+  -v, --version        version for multilogs
+
+Use "pifpaf [command] --help" for more information about a command.
+```
 
 ## Installation
 
@@ -93,12 +152,12 @@ It's a limitation of the `tview` library. I'm working on it.
 
 > Some commands need to refresh the screen to display the output, like in `watch`, or for example `top` or `htop`...
 
-At this time, PifPaf does not support this kind of command. It's a "log" tool, not a "monitor" tool. But I try to find a
-way to support this kind of command.
+At this time, `pifpaf` does not support this kind of command. It's a "log" tool, not a "monitor" tool.
+But I try to find a way to support this kind of command.
 
 > I launched interactive commands, like `vim`, and I can't stop it.
 
-As for the previous issue, PifPaf is not designed to manage interactive commands. It's a "log" tool, not an
+As for the previous issue, `pifpaf` is not designed to manage interactive commands. It's a "log" tool, not an
 "interactive" tool.
 
 ## FAQ
