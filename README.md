@@ -84,8 +84,18 @@ There are 4 options to install `pifpaf`:
   You may, also, use `go inteall` if you have Go installed:
 
   ```bash
-  go install -u github.com/metal3d/pifpaf/cmd/...@latest
+  # get the latest version
+  go install github.com/metal3d/pifpaf/cmd/...@latest
+
+  # or a specific version
+  go install github.com/metal3d/pifpaf/cmd/...@v0.1.0
+
+  # use a specific branch
+  go install github.com/metal3d/pifpaf/cmd/...@main
   ```
+
+  > Note: the "`...`" is important to install all the commands. There is actually only one command, but it's simpler
+  > this way.
 
 - From source with `podman` (`docker` is planned)
 
