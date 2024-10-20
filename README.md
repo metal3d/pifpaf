@@ -139,11 +139,13 @@ Because, it's funny.
 
 "Pif Paf" is a French onomatopoeia to say "wham", "bang" or rather "poof" in English.
 
-I decided this name after a discussion with a friend when I said to him "I really need a tool able to take any commands
-and poof I have all the logs in separated panes in one terminal".
+I decided this name after a discussion with a friend when I said to him:
 
-> The french discussion was "J'adorerai avoir un outil qui prenne quelques commandes et «pif paf» j'ai tous les logs dans
-> plusieurs panneaux dans un seul terminal".
+> "I really need a tool able to take any commands
+and poof I have all the logs in separated panes in one terminal"[^1].
+
+[^1]: The french discussion was "J'adorerai avoir un outil qui prenne quelques commandes et «pif paf» j'ai tous les
+logs dans plusieurs panneaux dans un seul terminal".
 
 At the time, I was using `tmux` with a number of automated splits, but:
 
