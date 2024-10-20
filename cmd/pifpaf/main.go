@@ -17,7 +17,7 @@ const examples = `
   {{.Appname}} launch "ping google.com" "podman run --rm -it metal3d/xmrig"
 
   # commands from stdin
-  echo -e "ping google.com\npodman run --rm -it metal3d/xmrig" | %[1]s launch
+  echo -e "ping google.com\npodman run --rm -it metal3d/xmrig" | {{.Appname }} launch
 
   {{.Appname}} launch <<EOF
   ping google.comm
