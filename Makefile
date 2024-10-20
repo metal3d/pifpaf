@@ -1,11 +1,27 @@
 
+# planned to use docker also... should be rootless, and podman is my prefered OCI engine
 OCI=podman
 OCI_OPTS=--userns=keep-id
 GO_IMAGE=docker.io/golang:1.22
 GO_BUILD_OPTS=-e CGO_ENABLED=0
-PREFIX=/usr/local
 
-all: dist/pifpaf.linux.amd64 dist/pifpaf.windows.amd64 dist/pifpaf.darwin.amd64 dist/pifpaf.freebsd.amd64 dist/pifpaf.linux.arm64 dist/pifpaf.freebsd.arm64 
+# Where to install the binary, default to tht HOME/.local/bin as it is the recommended path for user binaries
+# by freedesktop.org. Should be OK for most Linux distributions (even with WSL2), FreeBSD and OpenBSD.
+# I'm not sure how to handle the case of MacOS or Windows.
+PREFIX=~/.local
+
+VERSION:=$(shell git describe --tags --always --dirty)
+# please, do not change the BUILD variable, it is used to identify the build type
+BUILD=local-
+GO_VERSION_LD:=-X main.Version=$(BUILD)$(VERSION)
+
+
+all: dist/pifpaf.linux.amd64 \
+	dist/pifpaf.windows.amd64 \
+	dist/pifpaf.darwin.amd64 \
+	dist/pifpaf.freebsd.amd64 \
+	dist/pifpaf.linux.arm64 \
+	dist/pifpaf.freebsd.arm64
 
 dist/pifpaf%:
 	# split the target into the name and the extension
@@ -20,7 +36,7 @@ dist/pifpaf%:
 		$(GO_BUILD_OPTS) \
 		$(OCI_OPTS) \
 		$(GO_IMAGE) \
-		go build -o $@ ./cmd/pifpaf
+		go build -ldflags="$(GO_VERSION_LD)"  -o $@ ./cmd/pifpaf
 	strip $@ || :
 
 install:
