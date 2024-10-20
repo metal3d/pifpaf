@@ -15,25 +15,25 @@ By default, `pifpaf` will display maximum 3 columns. A "flexbox" layout is used,
 of commands is greater than the number of columns.
 
 ```bash
-pifpaf "command1" "command2" "command3"
+pifpaf launch "command1" "command2" "command3"
 ```
 
-`pifpaf` accepts `STDIN` input, so you can pipe commands to it in different manners.
+`pifpaf launch` accepts `STDIN` input, so you can pipe commands to it in different manners.
 
 ```bash
 # Using echo
-echo "command1" "command2" "command3" | pifpaf
+echo "command1" "command2" "command3" | pifpaf launch
 
-pifpaf < <(echo "command1" "command2" "command3")
+pifpaf launch < <(echo "command1" "command2" "command3")
 
-pifpaf <<EOF
+pifpaf launch <<EOF
 command1
 command2
 command3
 EOF
 
 # Using a file
-pifpaf < commands.txt
+pifpaf launch < commands.txt
 ```
 
 > Commands from `STDIN` are appended to the commands given as arguments. So you can mix both.
@@ -43,13 +43,13 @@ more columns you have, the more the terminal will be divided, and the output wid
 
 ```bash
 # Example, with 2 columns
-pifpaf -c 2 "command1" "command2" "command3"
+pifpaf launch -c 2 "command1" "command2" "command3"
 ```
 
 Examples of output:
 
 ```bash
-pifpaf \
+pifpaf launch \
   "podman run --rm -it nginx" \
   "podman run --rm -it metal3d/xmrig" \
   "dmesg -w"
@@ -60,52 +60,13 @@ pifpaf \
 Using `-c 2` to have only 2 columns:
 
 ```bash
-pifpaf -c 2 \
+pifpaf launch -c 2 \
   "podman run --rm -it nginx" \
   "podman run --rm -it metal3d/xmrig" \
   "dmesg -w"
 ```
 
 ![With 2 columns max](assets/pifpaf2.png)
-
-`pifpaf --help`:
-
-```text
-pifpaf is a tool to run multiple commands and display their output in a grid layout.
-
-Each command should be one string, that means that you certainly need to quote the command if it has spaces.
-You can also pass the commands separated by newlines to stdin.
-Examples:
-
- # commands in arguments
- pifpaf "ping google.com" "podman run --rm -it metal3d/xmrig"
-
- # commands from stdin
- echo -e "ping google.com\npodman run --rm -it metal3d/xmrig" | pifpaf
-
- pifpaf <<EOF
- ping google.comm
- podman run --rm -it metal3d/xmrig
- EOF
-
- pifpaf < file_with_commands.txt
-
-Usage:
-  multilogs [options] command1 [command2] ... [flags]
-  multilogs [command]
-
-Available Commands:
-  completion  Generate the autocompletion script for the specified shell
-  help        Help about any command
-  version     Print the version number of multilogs
-
-Flags:
-  -h, --help           help for multilogs
-  -c, --max-cols int   Maximum number of columns in the grid layout, default is 3, must be greater than 0 (default 3)
-  -v, --version        version for multilogs
-
-Use "pifpaf [command] --help" for more information about a command.
-```
 
 ## Installation
 
@@ -123,7 +84,7 @@ There are 4 options to install `pifpaf`:
   You may, also, use `go inteall` if you have Go installed:
 
   ```bash
-  go install -u github.com/metal3d/pifpaf@latest
+  go install -u github.com/metal3d/pifpaf/cmd/...@latest
   ```
 
 - From source with `podman` (`docker` is planned)

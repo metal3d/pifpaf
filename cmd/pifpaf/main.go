@@ -5,35 +5,31 @@ import (
 	"fmt"
 	"os"
 	"runtime/debug"
+	"strings"
+	"text/template"
 
 	"github.com/metal3d/pifpaf/internal/ui"
 	"github.com/spf13/cobra"
 )
 
 const examples = `
-Examples:
+  # commands in arguments
+  {{.Appname}} launch "ping google.com" "podman run --rm -it metal3d/xmrig"
 
-	# commands in arguments
-	pifpaf "ping google.com" "podman run --rm -it metal3d/xmrig"
+  # commands from stdin
+  echo -e "ping google.com\npodman run --rm -it metal3d/xmrig" | %[1]s launch
 
-	# commands from stdin
-	echo -e "ping google.com\npodman run --rm -it metal3d/xmrig" | pifpaf
+  {{.Appname}} launch <<EOF
+  ping google.comm
+  podman run --rm -it metal3d/xmrig
+  EOF
 
-	pifpaf <<EOF
-	ping google.comm
-	podman run --rm -it metal3d/xmrig
-	EOF
-
-	pifpaf < file_with_commands.txt
+  {{.Appname}} launch < file_with_commands.txt
 `
 
-const (
-	shortDescription = "pifpaf is a tool to run multiple commands and display their output in a grid layout."
-	longDescription  = shortDescription + "\n\n" +
-		"Each command should be one string, that means that you certainly need to quote the command if it has spaces.\n" +
-		"You can also pass the commands separated by newlines to stdin." +
-		examples
-)
+var tplConfig = map[string]any{
+	"Appname": "pifpaf",
+}
 
 // Version is the version of the application, can set at build time
 var Version = "dev"
@@ -42,12 +38,12 @@ func main() {
 	// maximum number of columns in the grid layout
 	maxCols := 3
 
-	// root command
-	cmd := &cobra.Command{
-		Use:     "pifpaf [options] command1 [command2] ...",
-		Short:   shortDescription,
-		Long:    longDescription,
-		Version: buildVersion(),
+	// launch subcommand
+	launch := &cobra.Command{
+		Use:     "launch [flags] command1 [command2] ...",
+		Short:   "Run multiple commands and display their output in a grid layout",
+		Long:    "Run multiple commands and display their output in a grid layout. The commands can be passed as arguments or from stdin.",
+		Example: tplExec(examples, tplConfig),
 		Args:    cobra.MinimumNArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if maxCols < 1 {
@@ -67,7 +63,7 @@ func main() {
 			return nil
 		},
 	}
-	cmd.Flags().IntVarP(
+	launch.Flags().IntVarP(
 		&maxCols, "max-cols", "c", maxCols,
 		fmt.Sprintf("Maximum number of columns in the grid layout, default is %d, must be greater than 0", maxCols),
 	)
@@ -75,15 +71,23 @@ func main() {
 	// add version subcommand
 	versionSubCmd := &cobra.Command{
 		Use:   "version",
-		Short: "Print the version number of multilogs",
+		Short: "Print the version",
 		Run: func(cmd *cobra.Command, args []string) {
-			cmd.Printf("multilogs version %s\n", buildVersion())
+			fmt.Println(buildVersion())
 		},
 	}
-	cmd.AddCommand(versionSubCmd)
+
+	// root command
+	rootCmd := &cobra.Command{
+		Use:     tplConfig["Appname"].(string),
+		Version: buildVersion(),
+		Example: tplExec(examples, tplConfig),
+	}
+	rootCmd.AddCommand(launch)
+	rootCmd.AddCommand(versionSubCmd)
 
 	// let's go
-	cmd.Execute()
+	rootCmd.Execute()
 }
 
 // buildVersion returns the version of the application. If the version is "dev", it tries to get the version from the go build info.
@@ -117,4 +121,12 @@ func getCommandsFromStdin() []string {
 		return commands
 	}
 	return nil
+}
+
+// convience function to execute a template string with arguments
+func tplExec(s string, args any) string {
+	buff := &strings.Builder{}
+	t := template.Must(template.New("").Parse(s))
+	t.Execute(buff, args)
+	return buff.String()
 }
