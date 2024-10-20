@@ -1,4 +1,4 @@
-module pifpaf
+module github.com/metal3d/pifpaf
 
 go 1.22.7
 

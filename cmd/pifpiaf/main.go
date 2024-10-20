@@ -1,7 +1,7 @@
 package main
 
 import (
-	"pifpaf/ui"
+	"github.com/metal3d/pifpaf/internal/ui"
 
 	"github.com/spf13/cobra"
 )
@@ -25,7 +25,7 @@ func main() {
 			ui.UI(args, maxCols)
 		},
 	}
-	cmd.Flags().IntVarP(&maxCols, "max-cols", "m", 3, "Maximum number of columns in the grid layout")
+	cmd.Flags().IntVarP(&maxCols, "max-cols", "c", 3, "Maximum number of columns in the grid layout")
 	// commands are the list of strings arguments passed to the commands
 	cmd.Execute()
 }
