@@ -42,13 +42,34 @@ pifpaf -c 2 \
 
 ## Installation
 
-Get the release from the [releases page](https://github.com/metal3d/pifpaf/releases) and put it in your `PATH`.
+There are 4 options to install `pifpaf`:
 
-You may, also, use `go inteall` if you have Go installed:
+- From the release page
 
-```bash
-go install github.com/metal3d/pifpaf@latest
-```
+  Get the release from the [releases page](https://github.com/metal3d/pifpaf/releases/latest) and put it in your `PATH`. Of
+  course, **rename it to `pifpaf`**.
+
+- Using `go get`
+
+  You may, also, use `go inteall` if you have Go installed:
+
+  ```bash
+  go install github.com/metal3d/pifpaf@latest
+  ```
+
+- From source with `podman` (`docker` is planned)
+
+  Build from source doesn't need to have Go installed, we use a container to build the binary.:
+
+  ```bash
+  git clone github.com/metal3d/pifpaf && cd pifpaf
+  # Recommended to install in your home.
+  # Change the PREFIX to install in another location.
+  make install PREFIX=~/.local
+
+  # or system-wide
+  sudo make install
+  ```
 
 ## Known issues
 
