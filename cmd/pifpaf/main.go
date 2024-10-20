@@ -40,11 +40,10 @@ func main() {
 
 	// launch subcommand
 	launch := &cobra.Command{
-		Use:     "launch [flags] command1 [command2] ...",
+		Use:     "launch [flags] [command1] [command2] ...",
 		Short:   "Run multiple commands and display their output in a grid layout",
 		Long:    "Run multiple commands and display their output in a grid layout. The commands can be passed as arguments or from stdin.",
 		Example: tplExec(examples, tplConfig),
-		Args:    cobra.MinimumNArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if maxCols < 1 {
 				return cmd.Help()
