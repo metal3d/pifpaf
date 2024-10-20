@@ -40,7 +40,6 @@ func LaunchCommand(w io.Writer, command string, args []string, wg *sync.WaitGrou
 	} else {
 		fmt.Fprintf(w, "Command %s finished successfully\n", command)
 	}
-	cmd.Wait()
 }
 
 // getCommandPipes sets up stdout and stderr pipes for the command.
