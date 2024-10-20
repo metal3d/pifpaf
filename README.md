@@ -18,8 +18,8 @@ of commands is greater than the number of columns.
 pifpaf "command1" "command2" "command3"
 ```
 
-You can specify the number of columns with the `-c` option - you can use 1 to whatever you want. But be careful, the
-more columns you have, the more the terminal will be divided and the output width will be reduced.
+You can specify the number of columns with the `-c` option – you can use 1 to whatever you want. But be careful, the
+more columns you have, the more the terminal will be divided, and the output width will be reduced.
 
 ```bash
 # Example, with 2 columns
