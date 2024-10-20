@@ -27,7 +27,7 @@ pifpiaf \
   "dmesg -w"
 ```
 
-![3 colunms by default](assets/pifpaf1.png)
+![3 columns by default](assets/pifpaf1.png)
 
 Using `-c 2` to have only 2 columns:
 
@@ -52,7 +52,7 @@ go install github.com/metal3d/pifpaf@latest
 
 ## Known issues
 
-> Sometimes, pressing `CTRL+C` does not stop the commands. The terminal dosn't give back the prompt.
+> Sometimes, pressing `CTRL+C` does not stop the commands. The terminal doesn't give back the prompt.
 
 It's a known issue, and I'm working on it. But no panic, only press `CTRL+C` again, and it will stop the commands.
 
@@ -60,9 +60,9 @@ It's a known issue, and I'm working on it. But no panic, only press `CTRL+C` aga
 
 It's a limitation of the `tview` library. I'm working on it.
 
-> Some commands need to refreach the screen to display the output, like in `watch`, or for example `top` or `htopt`...
+> Some commands need to refresh the screen to display the output, like in `watch`, or for example `top` or `htopt`...
 
-At this time, PifPaf does not support this kind of command. It' a "log" tool, not a "monitor" tool. But I try to find a
+At this time, PifPaf does not support this kind of command. It's a "log" tool, not a "monitor" tool. But I try to find a
 way to support this kind of command.
 
 ## Thanks to
