@@ -29,7 +29,7 @@ pifpaf -c 2 "command1" "command2" "command3"
 Examples of output:
 
 ```bash
-pifpiaf \
+pifpaf \
   "podman run --rm -it nginx" \
   "podman run --rm -it metal3d/xmrig" \
   "dmesg -w"
@@ -103,23 +103,40 @@ As for the previous issue, PifPaf is not designed to manage interactive commands
 
 ## FAQ
 
-> Why the name `pifpaf`?
+### Why the name `pifpaf`?
 
 Because, it's funny.
 
-> I have more complex commands to launch, it's hard to put them in quotes.
+"Pif Paf" is a French onomatopoeia to say "wham", "bang" or rather "poof" in English.
+
+I decided this name after a discussion with a friend when I said to him "I really need a tool able to take any commands
+and poof I have all the logs in seperated panes in one terminal".
+
+> The french discussion was "J'adorerai avoir un outil qui prenne quelques commandes et «pif paf» j'ai tous les logs dans
+> plusieurs panneaux dans un seul terminal".
+
+At the time, I was using `tmux` with a number of automated splits, but:
+
+- not all my colleagues have `tmux`, and it's not necessarily set up with mouse support
+- it's complicated to maintain
+
+So, I decided to make this tool.
+
+And as a [`K9s` user](https://k9scli.io/), I choosed `tview` to make the UI.
+
+### I have more complex commands to launch, it's hard to put them in quotes
 
 You may use a Makefile to store the commands, and use `make XXX` where `XXX` is the target name. You can, also, use
 scripts.
 
-> Is it really free?
+### Is it really free?
 
 Yes, it's free. It's under the BSD-3-Clause license. You can use it, modify it, and distribute it as you want. I'm a
 historical defender of free software programs, and when I say "free", I mean "as freedom".
 
 If you like my project, you can make donation by using the GitHub Sponsors program.
 
-> I found a bug, how can I report it, or fix it?
+### I found a bug, how can I report it, or fix it?
 
 Use the [issue tracker](https://github.com/metal3d/pifpaf/issues) to report a bug, or to ask for a feature. If you want
 to fix it, you can fork the project, and make a pull request.
