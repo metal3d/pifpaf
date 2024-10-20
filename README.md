@@ -126,6 +126,31 @@ to fix it, you can fork the project, and make a pull request.
 
 Please, be kind and respectful. I'm a human, and I do my best to make a good project.
 
+## Ensure it's me who upload the releases
+
+I sign the releases with my GPG key.
+
+My key is register
+[here on opengpg.org](https://keys.openpgp.org/search?q=483493B2DD0845DA8F21A26DF3702E3FAD8F76DC) and
+[here on keyserver.ubuntu.com](https://keyserver.ubuntu.com/pks/lookup?search=483493B2DD0845DA8F21A26DF3702E3FAD8F76DC&fingerprint=on&op=index)
+Import it with:
+
+```bash
+gpg --keyserver keyserver.ubuntu.com --recv-keys 483493B2DD0845DA8F21A26DF3702E3FAD8F76DC
+# if the key seems to be expired, you can refresh it with:
+gpg --refresh-keys
+```
+
+Verify the signature with:
+
+```bash
+# Change the file according to the release you downloaded.
+# The binary file should be in the same directory as the signature file.
+gpg --verify pifpaf.linux.amd64.asc
+```
+
+If the signature fails, please report it to me.
+
 ## Thanks to
 
 - Thanks to Rivo for [TView](https://github.com/rivo/tview) library, it's a great tool to build terminal applications.
