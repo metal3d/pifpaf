@@ -19,7 +19,7 @@ const (
 var Version = "dev"
 
 func main() {
-	/// cmds := []string{}
+	// maximum number of columns in the grid layout
 	maxCols := 3
 
 	// root command
