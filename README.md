@@ -130,7 +130,7 @@ Because, it's funny.
 "Pif Paf" is a French onomatopoeia to say "wham", "bang" or rather "poof" in English.
 
 I decided this name after a discussion with a friend when I said to him "I really need a tool able to take any commands
-and poof I have all the logs in seperated panes in one terminal".
+and poof I have all the logs in separated panes in one terminal".
 
 > The french discussion was "J'adorerai avoir un outil qui prenne quelques commandes et «pif paf» j'ai tous les logs dans
 > plusieurs panneaux dans un seul terminal".
@@ -142,7 +142,7 @@ At the time, I was using `tmux` with a number of automated splits, but:
 
 So, I decided to make this tool.
 
-And as a [`K9s` user](https://k9scli.io/), I choosed `tview` to make the UI.
+And as a [`K9s` user](https://k9scli.io/), I chose `tview` to make the UI.
 
 ### I have more complex commands to launch, it's hard to put them in quotes
 
