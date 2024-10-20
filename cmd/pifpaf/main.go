@@ -1,18 +1,38 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"runtime/debug"
 
 	"github.com/metal3d/pifpaf/internal/ui"
-
 	"github.com/spf13/cobra"
 )
 
+const examples = `
+Examples:
+
+	# commands in arguments
+	pifpaf "ping google.com" "podman run --rm -it metal3d/xmrig"
+
+	# commands from stdin
+	echo -e "ping google.com\npodman run --rm -it metal3d/xmrig" | pifpaf
+
+	pifpaf <<EOF
+	ping google.comm
+	podman run --rm -it metal3d/xmrig
+	EOF
+
+	pifpaf < file_with_commands.txt
+`
+
 const (
-	shortDescription = "multilogs is a tool to run multiple commands and display their output in a grid layout."
-	longDescription  = shortDescription + "\n" +
-		"Each command should be one string, that means that you certainly need to quote the command if it has spaces."
+	shortDescription = "pifpaf is a tool to run multiple commands and display their output in a grid layout."
+	longDescription  = shortDescription + "\n\n" +
+		"Each command should be one string, that means that you certainly need to quote the command if it has spaces.\n" +
+		"You can also pass the commands separated by newlines to stdin." +
+		examples
 )
 
 // Version is the version of the application, can set at build time
@@ -24,7 +44,7 @@ func main() {
 
 	// root command
 	cmd := &cobra.Command{
-		Use:     "multilogs [options] command1 [command2] ...",
+		Use:     "pifpaf [options] command1 [command2] ...",
 		Short:   shortDescription,
 		Long:    longDescription,
 		Version: buildVersion(),
@@ -33,6 +53,16 @@ func main() {
 			if maxCols < 1 {
 				return cmd.Help()
 			}
+
+			// accept stdin command list separated by newlines
+			if stdinCommands := getCommandsFromStdin(); len(stdinCommands) > 0 {
+				args = append(args, stdinCommands...)
+			}
+
+			if len(args) == 0 {
+				return fmt.Errorf("no command to run")
+			}
+
 			ui.UI(args, maxCols)
 			return nil
 		},
@@ -69,4 +99,22 @@ func buildVersion() string {
 		}
 	}
 	return Version
+}
+
+// getCommandsFromStdin reads the commands from stdin and returns them as a slice of strings.
+func getCommandsFromStdin() []string {
+	stdinStat, err := os.Stdin.Stat()
+	if err != nil {
+		return nil
+	}
+
+	if (stdinStat.Mode() & os.ModeCharDevice) == 0 {
+		var commands []string
+		s := bufio.NewScanner(os.Stdin)
+		for s.Scan() {
+			commands = append(commands, s.Text())
+		}
+		return commands
+	}
+	return nil
 }
