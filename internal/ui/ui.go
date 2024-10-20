@@ -56,6 +56,7 @@ func UI(cmds []string, maxCols int) {
 		}
 	}
 
+	// add the last row if needed
 	if currentCol != 0 {
 		mainbox.AddItem(currentRow, 0, 1, false)
 	}
