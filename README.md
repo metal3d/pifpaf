@@ -123,7 +123,7 @@ There are 4 options to install `pifpaf`:
   You may, also, use `go inteall` if you have Go installed:
 
   ```bash
-  go install github.com/metal3d/pifpaf@latest
+  go install -u github.com/metal3d/pifpaf@latest
   ```
 
 - From source with `podman` (`docker` is planned)
