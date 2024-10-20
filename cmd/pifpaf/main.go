@@ -68,7 +68,7 @@ func main() {
 		},
 	}
 	cmd.Flags().IntVarP(
-		&maxCols, "max-cols", "c", 3,
+		&maxCols, "max-cols", "c", maxCols,
 		fmt.Sprintf("Maximum number of columns in the grid layout, default is %d, must be greater than 0", maxCols),
 	)
 
