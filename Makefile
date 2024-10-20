@@ -15,6 +15,7 @@ VERSION:=$(shell git describe --tags --always --dirty)
 BUILD=local-
 GO_VERSION_LD:=-X main.Version=$(BUILD)$(VERSION)
 
+SIGNER=metal3d@gmail.com
 
 all: dist/pifpaf.linux.amd64 \
 	dist/pifpaf.windows.amd64 \
@@ -22,8 +23,10 @@ all: dist/pifpaf.linux.amd64 \
 	dist/pifpaf.freebsd.amd64 \
 	dist/pifpaf.linux.arm64 \
 	dist/pifpaf.freebsd.arm64
+	$(MAKE) sign
 
-dist/pifpaf%:
+
+dist/pifpaf%: $(shell find . -name "*.go") go.mod go.sum
 	# split the target into the name and the extension
 	$(eval TARGET := $(subst ., ,$@))
 	$(eval NAME := $(word 1, $(TARGET)))
@@ -50,6 +53,10 @@ install:
 	$(MAKE) dist/pifpaf.$$OS.$$ARCH;\
 	install -Dm755 dist/pifpaf.$$OS.$$ARCH $(PREFIX)/bin/pifpaf
 
+sign:
+	for f in dist/*; do \
+		gpg --armor --detach-sign --local-user $(SIGNER) $$f; \
+	done
 
 clean:
 	rm -rf dist/*
